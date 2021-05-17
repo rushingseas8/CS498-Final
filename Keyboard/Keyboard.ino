@@ -86,6 +86,11 @@ void volume_down() {
 }
 
 #define IR_PIN 15
+#define LED_PIN 11
+
+// How many times do we pause/play in the demo before we stop?
+// (this prevents the keyboard from running forever.. which is annoying)
+int count = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -100,17 +105,33 @@ void setup() {
   pinMode(IR_PIN, INPUT);
   digitalWrite(IR_PIN, LOW);
   
-//  print_pause_play();
-  
+  count = 0;
+  // Tab to the browser
+  print_alt_tab();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   //Serial.print(".");
-  
-  delay(1000);
-//  _pause();
-//  _play();
+//  delay(1000);
+//  print_pause_play();
 //  print_ctrl_tab();
-//  print_ctrl_shift_tab();
-}
+  
+  count++;
+  while (count > 5) {
+    // Wait forever to "end" the loop
+  }
+  
+  // Play the video
+  _play();
+  digitalWrite(LED_PIN, HIGH);
+  delay(500);
+  digitalWrite(LED_PIN, LOW);
+  delay(500);
+
+  // Pause the video
+  _pause();
+  digitalWrite(LED_PIN, HIGH);
+  delay(500);
+  digitalWrite(LED_PIN, LOW);
+  delay(500);
